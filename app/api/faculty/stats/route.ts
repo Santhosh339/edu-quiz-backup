@@ -76,6 +76,9 @@ export async function GET(req: Request) {
 
         // 🔍 Direct Database Query as Fallback to Mongoose Models
         const db = mongoose.connection.db;
+        if (!db) {
+            throw new Error('Database connection not established');
+        }
         let userData = await db.collection('faculties').findOne({ _id: objId });
         let userRole = userData?.role || 'admin';
 

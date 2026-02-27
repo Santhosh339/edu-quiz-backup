@@ -34,7 +34,7 @@ export async function POST(req: Request) {
             // Calculate Subtotal
             let subtotal = 0;
             cartItems.forEach((item: any) => {
-                const product = products.find(p => p._id.toString() === item.productId);
+                const product = products.find((p: any) => p._id.toString() === item.productId);
                 if (product) {
                     // Check both originalPrice and price for compatibility
                     subtotal += (product.originalPrice || product.price || 0) * (item.quantity || 1);

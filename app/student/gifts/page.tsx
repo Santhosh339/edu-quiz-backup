@@ -14,6 +14,12 @@ interface CartItem {
     quantity: number;
 }
 
+declare global {
+    interface Window {
+        Razorpay: any;
+    }
+}
+
 export default function GiftsCatalogPage() {
     const router = useRouter();
     const [step, setStep] = useState<'enter_code' | 'browse_products' | 'checkout_address' | 'order_confirmation'>('enter_code');
