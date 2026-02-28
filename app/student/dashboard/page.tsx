@@ -44,6 +44,8 @@ export default function StudentDashboard() {
         queryKey: ['student-dashboard', idNo],   // ← unique cache key per student
         queryFn: () => fetchDashboard(idNo),
         enabled: !!idNo && status === 'authenticated', // don't fetch until session ready
+        staleTime: 0, // Always consider data stale so it refetches when invalidated
+        refetchOnMount: true, // Re-check server every time student enters dashboard
     });
 
     // ✅ REACT QUERY: Vouchers — fetches IN PARALLEL with dashboard (not waterfall!)

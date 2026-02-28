@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Global style for selection animation
 const selectionStyles = `
@@ -23,6 +24,7 @@ import BroadcastBanner from "@/app/components/BroadcastBanner";
 function QuizAttemptContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const queryClient = useQueryClient();
     const { data: session, status } = useSession();
     const level = searchParams.get("level") || "1";
     // @ts-ignore
@@ -329,6 +331,9 @@ function QuizAttemptContent() {
 
             localStorage.setItem(`attempted_${studentId}_${new Date().toDateString()}`, "true");
             localStorage.setItem("show_result_button", "true");
+
+            // ✅ Force Dashboard to Refresh next time it's visited
+            queryClient.invalidateQueries({ queryKey: ['student-dashboard', studentId] });
 
             // Clear Quiz Session Data
             localStorage.removeItem(`quiz_questions_${studentId}`);
